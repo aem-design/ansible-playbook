@@ -49,7 +49,8 @@ ENV PIP_PACKAGES \
     ansible \
     'docker-compose<1.20.0' \
     'docker<3.0' \
-    python-keyczar
+    python-keyczar \
+    jinja2-cli
 
 RUN \
     yum -y install epel-release && \
