@@ -4,9 +4,8 @@ services:
 
 stages:
 - build
-#- test
+- test
 - release
-#- deploy
 
 variables:
   DOCKER_HOST: tcp://docker:2375
@@ -16,25 +15,19 @@ variables:
 
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-#  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.example.com
 
 build:
   stage: build
   script:
     - docker build --pull -t "$CONTAINER_TEST_IMAGE" .
     - docker push "$CONTAINER_TEST_IMAGE"
-#
-#test1:
-#  stage: test
-#  script:
-#    - docker pull $CONTAINER_TEST_IMAGE
-#    - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
-#
-#test2:
-#  stage: test
-#  script:
-#    - docker pull $CONTAINER_TEST_IMAGE
-#    - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+
+test:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE --version
+    - docker run --entrypoint "" $CONTAINER_TEST_IMAGE python -c 'import pycurl; print(pycurl.version)'
+    - docker run --entrypoint "" $CONTAINER_TEST_IMAGE python -c 'import pyaem; print(pyaem.__version__)'
 
 release-image:
   stage: release
@@ -44,10 +37,3 @@ release-image:
     - docker push "$CONTAINER_RELEASE_IMAGE"
   only:
     - master
-#
-#deploy:
-#  stage: deploy
-#  script:
-#    - ./deploy.sh
-#  only:
-#    - master
