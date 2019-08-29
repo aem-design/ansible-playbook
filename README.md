@@ -1,6 +1,13 @@
 ## CentOS 7 with Ansible-Playbook
 
-[![pipeline status](https://gitlab.com/aem.design/ansible-playbook/badges/master/pipeline.svg)](https://gitlab.com/aem.design/ansible-playbook/commits/master)
+[![build_status](https://travis-ci.org/aem-design/ansible-playbook.svg?branch=master)](https://travis-ci.org/aem-design/ansible-playbook) 
+[![github license](https://img.shields.io/github/license/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
+[![github issues](https://img.shields.io/github/issues/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
+[![github last commit](https://img.shields.io/github/last-commit/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
+[![github repo size](https://img.shields.io/github/repo-size/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
+[![docker stars](https://img.shields.io/docker/stars/aemdesign/ansible-playbook)](https://hub.docker.com/r/aemdesign/ansible-playbook) 
+[![docker pulls](https://img.shields.io/docker/pulls/aemdesign/ansible-playbook)](https://hub.docker.com/r/aemdesign/ansible-playbook) 
+[![github release](https://img.shields.io/github/release/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook)
 
 This is docker image based on CentOS 7 with Ansible-Playbook
 
@@ -8,10 +15,12 @@ This is docker image based on CentOS 7 with Ansible-Playbook
 
 Following is the list of packages included
 
-* python                - for ansible
-* pyaem                 - for aem automation [pyaem](https://github.com/wildone/pyaem)
-* ansible               - for running playbooks
-* ansible-playbook      - for running playbooks
+| Package | Version | Notes  |
+| ---  | ---    | --- |
+| python | 2.5.3 | for ansible |
+| pyaem | | for aem automation [pyaem](https://github.com/wildone/pyaem) |
+| ansible | | for running playbooks |
+| ansible-playbook | | for running playbooks |
 
 ### Usage
 

@@ -2,8 +2,10 @@ FROM        centos:latest
 
 MAINTAINER  devops <devops@aem.design>
 
-LABEL   os.version="centos" \
-        container.description="dockerise ansible-playbook"
+LABEL   os="centos" \
+        container.description="dockerise ansible-playbook" \
+        version="1.0.0" \
+        imagename="centos-java-buildpack"
 
 ARG ANSIBLE_VERSION=2.5.3
 ARG CURL_VERSION="7.54.1"
