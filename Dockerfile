@@ -6,8 +6,8 @@ LABEL   os="centos" \
         container.description="dockerise ansible-playbook" \
         version="1.0.0" \
         imagename="ansible-playbook" \
-        test.command="ansible --version" \
-        test.command.verify="v10.2.1"
+        test.command=" --version | awk 'NR==1 {print $2}'" \
+        test.command.verify="2.8.4"
 
 
 ARG ANSIBLE_VERSION=2.5.3
