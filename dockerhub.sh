@@ -16,6 +16,11 @@ RESPONSE=$(curl -s --write-out %{response_code} --output /dev/null -H "Authoriza
 if [[ ${RESPONSE} -eq 200 ]]; then
     exit 0
 else
-    curl -H "Authorization: JWT ${TOKEN}" -X PATCH --data-urlencode full_description@${README} ${API_URL}/repositories/${REPO}/
+    echo USERNAME=${USERNAME}
+    echo REPO=${REPO}
+    echo README=${README}
+    echo API_URL=${API_URL}
+    echo "curl -H "Authorization: JWT ${TOKEN}" -X PATCH --data-urlencode full_description@${README} ${API_URL}/repositories/${REPO}/"
+    curl -v -H "Authorization: JWT ${TOKEN}" -X PATCH --data-urlencode full_description@${README} ${API_URL}/repositories/${REPO}/
     exit 1
 fi
