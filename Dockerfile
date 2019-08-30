@@ -5,7 +5,10 @@ MAINTAINER  devops <devops@aem.design>
 LABEL   os="centos" \
         container.description="dockerise ansible-playbook" \
         version="1.0.0" \
-        imagename="centos-java-buildpack"
+        imagename="ansible-playbook" \
+        test.command="ansible --version" \
+        test.command.verify="v10.2.1"
+
 
 ARG ANSIBLE_VERSION=2.5.3
 ARG CURL_VERSION="7.54.1"
