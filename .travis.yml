@@ -6,7 +6,7 @@ services:
 before_install:
   - export IMAGE_NAME=$(grep imagename= Dockerfile | sed -e 's/.*imagename="\(.*\)".*/\1/')
   - export TEST_COMMAND=$(grep test.command= Dockerfile | sed -e 's/.*test.command="\(.*\)".*/\1/')
-  - export TEST_COMMAND_VERIFY=$(grep TEST_COMMAND_VERIFY= Dockerfile | sed -e 's/.*TEST_COMMAND_VERIFY="\(.*\)".*/\1/')
+  - export TEST_COMMAND_VERIFY=$(grep test.command.verify= Dockerfile | sed -e 's/.*test.command.verify="\(.*\)".*/\1/')
   - export IMAGE_VERSION=$(grep version= Dockerfile | sed -e 's/.*version="\(.*\)".*/\1/')
   - export IMAGE="$ORGANISATION_NAME/$IMAGE_NAME"
   - echo IMAGE_NAME=$IMAGE_NAME
@@ -33,7 +33,7 @@ script:
   - echo "PUSH HUB.DOCKER"
   - docker push $IMAGE:$IMAGE_VERSION && docker push $IMAGE:$CONTAINER_OUTPUT && if [[ $TRAVIS_BRANCH == "master" ]]; then docker push $IMAGE:latest; fi
   - echo "UPDATE README IN HUB.DOCKER"
-  - if [[ $TRAVIS_BRANCH == "master" ]]; then docker run --rm -v $(pwd)/README.md:/data/README.md -e DOCKERHUB_USERNAME=$DOCKER_USERNAME -e DOCKERHUB_PASSWORD=$DOCKER_PASSWORD -e DOCKERHUB_REPO_PREFIX=$ORGANISATION_NAME -e DOCKERHUB_REPO_NAME=$IMAGE_NAME sheogorath/readme-to-dockerhub; fi
+  - if [[ $TRAVIS_BRANCH == "master" ]]; then ./dockerhub.sh "$DOCKER_USERNAME" "$DOCKER_PASSWORD" "$DOCKERHUB_REPO_NAME" "README.md"; fi
 
 ## Get the project version
 before_deploy:
