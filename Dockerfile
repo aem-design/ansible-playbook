@@ -15,6 +15,8 @@ ARG CURL_VERSION="7.66.0"
 ARG CURL_URL="http://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz"
 
 ENV YUM_PACKAGES \
+    sudo \
+    which \
     python-setuptools \
     python-devel \
     python-pip \
@@ -58,7 +60,7 @@ ENV PIP_PACKAGES \
     pyaem2
 
 RUN \
-    yum -y install epel-release && \
+    yum -y install deltarpm epel-release initscripts && \
     yum -y install ${YUM_PACKAGES} && \
     pip install --upgrade pip && \
     yum -y groupinstall development && \
@@ -111,6 +113,9 @@ RUN \
     \
     echo "==> PyAEM2 status..." && \
     python -c 'import pyaem2; print(pyaem2.__version__)' && \
+    \
+    echo "==> Disable requiretty..." && \
+    sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers && \
     \
     echo "==> Adding hosts for convenience..."  && \
     mkdir -p /etc/ansible /ansible && \
