@@ -6,7 +6,7 @@ LABEL   os="centos" \
         container.description="dockerise ansible-playbook" \
         version="1.0.0" \
         imagename="ansible-playbook" \
-        test.command=" --version | awk 'NR==1 {print $2}'" \
+        test.command="ansible-playbook --version | awk 'NR==1 {print $2}'" \
         test.command.verify="2.8.5"
 
 
