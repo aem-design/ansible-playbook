@@ -27,7 +27,7 @@ test:
   script:
     - docker run $CONTAINER_TEST_IMAGE --version
     - docker run --entrypoint "" $CONTAINER_TEST_IMAGE python -c 'import pycurl; print(pycurl.version)'
-    - docker run --entrypoint "" $CONTAINER_TEST_IMAGE python -c 'import pyaem; print(pyaem.__version__)'
+    - docker run --entrypoint "" $CONTAINER_TEST_IMAGE python -c 'import pyaem2; print(pyaem2.__version__)'
 
 release-image:
   stage: release
