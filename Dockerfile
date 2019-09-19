@@ -128,6 +128,6 @@ ENV ANSIBLE_GATHERING="smart" \
     PATH="/ansible/bin:$PATH" \
     ANSIBLE_LIBRARY="/ansible/library"
 
-VOLUME ["/sys/fs/cgroup"]
+VOLUME ["/sys/fs/cgroup", "/tmp/docker.sock"]
 
-ENTRYPOINT ["ansible-playbook"]
+CMD ["ansible-playbook"]
