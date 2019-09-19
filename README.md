@@ -18,7 +18,7 @@ Following is the list of packages included
 | Package | Version | Notes  |
 | ---  | ---    | --- |
 | python | 2.5.3 | for ansible |
-| pyaem | | for aem automation [pyaem](https://github.com/wildone/pyaem) |
+| pyaem2 | | for aem automation [pyaem](https://github.com/aem-design/pyaem2) |
 | ansible | | for running playbooks |
 | ansible-playbook | | for running playbooks |
 
