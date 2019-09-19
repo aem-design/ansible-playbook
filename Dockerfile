@@ -10,8 +10,8 @@ LABEL   os="centos" \
         test.command.verify="2.8.5"
 
 
-ARG ANSIBLE_VERSION=2.5.3
-ARG CURL_VERSION="7.54.1"
+ARG ANSIBLE_VERSION=2.8.5
+ARG CURL_VERSION="7.66.0"
 ARG CURL_URL="http://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz"
 
 ENV YUM_PACKAGES \
