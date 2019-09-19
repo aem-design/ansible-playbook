@@ -33,7 +33,7 @@ script:
   - echo "PUSH HUB.DOCKER MASTER"
   - if [[ $TRAVIS_BRANCH == "master" ]]; then docker push $IMAGE:latest; fi
   - echo "PUSH HUB.DOCKER BRANCH"
-  - if [[ $TRAVIS_BRANCH != "master" ]]; then docker push $IMAGE:$TRAVIS_BRANCH fi
+  - if [[ $TRAVIS_BRANCH != "master" ]]; then docker push $IMAGE:$TRAVIS_BRANCH; fi
   - echo "ON MASTER UPDATE README IN HUB.DOCKER"
   - if [[ $TRAVIS_BRANCH == "master" ]]; then ./dockerhub.sh "$DOCKER_USERNAME" "$DOCKER_PASSWORD" "$IMAGE" "README.md"; fi
 
