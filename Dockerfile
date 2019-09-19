@@ -109,8 +109,8 @@ RUN \
     echo "==> Pycurl status..." && \
     python -c 'import pycurl; print(pycurl.version)' && \
     \
-    echo "==> PyAEM status..." && \
-    python -c 'import pyaem; print(pyaem.__version__)' && \
+    echo "==> PyAEM2 status..." && \
+    python -c 'import pyaem2; print(pyaem2.__version__)' && \
     \
     echo "==> Adding hosts for convenience..."  && \
     mkdir -p /etc/ansible /ansible && \
