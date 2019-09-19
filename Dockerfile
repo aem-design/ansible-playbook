@@ -52,8 +52,8 @@ ENV PIP_PACKAGES \
     boto \
     bs4 \
     ansible \
-    'docker-compose<1.20.0' \
-    'docker<3.0' \
+    docker-compose \
+    docker \
     python-keyczar \
     jinja2-cli
 
@@ -118,7 +118,7 @@ RUN \
     echo "==> Adding hosts for convenience..."  && \
     mkdir -p /etc/ansible /ansible && \
     echo "[local]" >> /etc/ansible/hosts && \
-    echo "localhost" >> /etc/ansible/hosts
+    echo "localhost ansible_connection=local" >> /etc/ansible/hosts
 
 WORKDIR /ansible/playbooks
 
@@ -130,5 +130,7 @@ ENV ANSIBLE_GATHERING="smart" \
     PYTHONPATH="/ansible/lib" \
     PATH="/ansible/bin:$PATH" \
     ANSIBLE_LIBRARY="/ansible/library"
+
+VOLUME ["/sys/fs/cgroup"]
 
 ENTRYPOINT ["ansible-playbook"]
