@@ -7,7 +7,7 @@ LABEL   os="centos" \
         version="1.0.0" \
         imagename="ansible-playbook" \
         test.command=" --version | awk 'NR==1 {print $2}'" \
-        test.command.verify="2.8.4"
+        test.command.verify="2.8.5"
 
 
 ARG ANSIBLE_VERSION=2.5.3
