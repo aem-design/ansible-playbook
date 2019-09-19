@@ -30,9 +30,11 @@ install:
 script:
   - echo "LOGIN TO HUB.DOCKER"
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - echo "PUSH HUB.DOCKER"
-  - docker push $IMAGE:$IMAGE_VERSION && docker push $IMAGE:$CONTAINER_OUTPUT && if [[ $TRAVIS_BRANCH == "master" ]]; then docker push $IMAGE:latest; fi
-  - echo "UPDATE README IN HUB.DOCKER"
+  - echo "PUSH HUB.DOCKER MASTER"
+  - if [[ $TRAVIS_BRANCH == "master" ]]; then docker push $IMAGE:latest; fi
+  - echo "PUSH HUB.DOCKER BRANCH"
+  - if [[ $TRAVIS_BRANCH != "master" ]]; then git tag $TRAVIS_BRANCH; fi
+  - echo "ON MASTER UPDATE README IN HUB.DOCKER"
   - if [[ $TRAVIS_BRANCH == "master" ]]; then ./dockerhub.sh "$DOCKER_USERNAME" "$DOCKER_PASSWORD" "$IMAGE" "README.md"; fi
 
 ## Get the project version
@@ -40,6 +42,7 @@ before_deploy:
   - export CURRENT_VERSION=$(git describe --tag --always --long | sed -e 's/\(.*\)-\(.*\)-.*/\1.\2/')
   - echo CURRENT_VERSION=$CURRENT_VERSION
   - export TRAVIS_TAG=$CURRENT_VERSION
+  - echo "PUSH HUB.DOCKER TAG"
   - if [[ $TRAVIS_BRANCH == "master" ]]; then git tag $TRAVIS_TAG; fi
 
 ## Create release in GitHub
