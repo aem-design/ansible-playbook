@@ -13,7 +13,6 @@ LABEL   os="centos" \
 ARG ANSIBLE_VERSION=2.5.3
 ARG CURL_VERSION="7.54.1"
 ARG CURL_URL="http://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz"
-ARG PYAEM_URL="https://github.com/wildone/pyaem/archive/master.zip"
 
 ENV YUM_PACKAGES \
     python-setuptools \
@@ -55,7 +54,8 @@ ENV PIP_PACKAGES \
     docker-compose \
     docker \
     python-keyczar \
-    jinja2-cli
+    jinja2-cli \
+    pyaem2
 
 RUN \
     yum -y install epel-release && \
@@ -102,9 +102,6 @@ RUN \
     \
     echo "==> Pycurl status..." && \
     python -c 'import pycurl; print(pycurl.version)' && \
-    \
-    echo "==> Installing pyaem..." && \
-    pip install --no-deps ${PYAEM_URL} && \
     \
     echo "==> Curl status..." && \
     curl -V && \
