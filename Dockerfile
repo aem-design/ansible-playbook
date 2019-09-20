@@ -73,7 +73,7 @@ RUN \
     update-alternatives --install /usr/bin/python python /usr/bin/python2 50 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.6 60 && \
     echo "==> Check Python ..." && \
-    python --verion && \
+    python --version && \
     \
     echo "==> Downloading curl..." && \
     wget -O curl.tar.gz ${CURL_URL} && tar -xvzf curl.tar.gz && \
