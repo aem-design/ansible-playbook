@@ -60,12 +60,14 @@ ENV PIP_PACKAGES \
     pyaem2
 
 RUN \
+    echo "==> Setup Base OS" && \
     yum -y update && \
     yum -y install deltarpm epel-release initscripts && \
     yum -y install yum-utils && \
     yum -y groupinstall development && \
-    yum -y install ${YUM_PACKAGES} && \
-    \
+    yum -y install ${YUM_PACKAGES}
+
+RUN \
     echo "==> Install Python 3" && \
     yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
     yum -y install python36u python36u-pip && \
