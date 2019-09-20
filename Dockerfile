@@ -60,9 +60,9 @@ ENV PIP_PACKAGES \
     pyaem2
 
 RUN \
+    yum -y update && \
     yum -y install deltarpm epel-release initscripts && \
     yum -y install ${YUM_PACKAGES} && \
-    pip install --upgrade pip && \
     yum -y yum-utils && \
     yum -y groupinstall development && \
     \
@@ -74,6 +74,8 @@ RUN \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.6 60 && \
     echo "==> Check Python ..." && \
     python --version && \
+    echo "==> Upgrade Pip ..." && \
+    pip install --upgrade pip && \
     \
     echo "==> Downloading curl..." && \
     wget -O curl.tar.gz ${CURL_URL} && tar -xvzf curl.tar.gz && \
