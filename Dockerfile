@@ -63,7 +63,18 @@ RUN \
     yum -y install deltarpm epel-release initscripts && \
     yum -y install ${YUM_PACKAGES} && \
     pip install --upgrade pip && \
+    yum -y yum-utils && \
     yum -y groupinstall development && \
+    \
+    echo "==> Install Python 3" && \
+    yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
+    yum -y install python36u python36u-pip && \
+    echo "==> Set Python 3 as primary..." && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python2 50 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.6 60 && \
+    echo "==> Check Python ..." && \
+    python --verion && \
+    \
     echo "==> Downloading curl..." && \
     wget -O curl.tar.gz ${CURL_URL} && tar -xvzf curl.tar.gz && \
     \
