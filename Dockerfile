@@ -62,9 +62,9 @@ ENV PIP_PACKAGES \
 RUN \
     yum -y update && \
     yum -y install deltarpm epel-release initscripts && \
-    yum -y install ${YUM_PACKAGES} && \
-    yum -y yum-utils && \
+    yum -y install yum-utils && \
     yum -y groupinstall development && \
+    yum -y install ${YUM_PACKAGES} && \
     \
     echo "==> Install Python 3" && \
     yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
