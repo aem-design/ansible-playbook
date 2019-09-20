@@ -69,16 +69,16 @@ RUN \
 
 RUN \
     echo "==> Install Python 3" && \
-    yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
-    yum -y install python36u python36u-pip && \
+    yum -y install centos-release-scl && \
+    yum -y install rh-python36 && \
     echo "==> Set Python 3 as primary..." && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python2 50 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.6 60 && \
+    scl enable rh-python36 bash && \
     echo "==> Check Python ..." && \
     python --version && \
     echo "==> Upgrade Pip ..." && \
-    pip install --upgrade pip && \
-    \
+    pip install --upgrade pip
+
+RUN \
     echo "==> Downloading curl..." && \
     wget -O curl.tar.gz ${CURL_URL} && tar -xvzf curl.tar.gz && \
     \
