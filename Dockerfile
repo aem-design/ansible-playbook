@@ -72,7 +72,10 @@ RUN \
     yum -y install centos-release-scl scl-utils && \
     yum -y install rh-python36 && \
     echo "==> Set Python 3 as primary..." && \
-    scl enable rh-python36 bash && \
+    touch /etc/profile.d/python3.sh && chmod +x /etc/profile.d/python3.sh && \
+    echo "#!/bin/bash">/etc/profile.d/python3.sh && \
+    echo "source /opt/rh/rh-python36/enable">>/etc/profile.d/python3.sh && \
+    source /opt/rh/rh-python36/enable && \
     echo "==> Check Python ..." && \
     python --version && \
     echo "==> Upgrade Pip ..." && \
