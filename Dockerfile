@@ -69,7 +69,7 @@ RUN \
 
 RUN \
     echo "==> Install Python 3" && \
-    yum -y install centos-release-scl && \
+    yum -y install centos-release-scl scl-utils && \
     yum -y install rh-python36 && \
     echo "==> Set Python 3 as primary..." && \
     scl enable rh-python36 bash && \
