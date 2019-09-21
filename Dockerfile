@@ -118,11 +118,6 @@ RUN \
     echo "==> Enable Python 3 and create Virtual Environment" && \
     source scl_source enable rh-python36 && \
     virtualenv ${APP_ROOT} && \
-    echo "==> Set Python 3 as primary..." && \
-    touch /etc/profile.d/python3.sh && chmod +x /etc/profile.d/python3.sh && \
-    echo "#!/bin/bash">/etc/profile.d/python3.sh && \
-#    echo "source /opt/rh/rh-python36/enable">>/etc/profile.d/python3.sh && \
-    echo "source /ansible/bin/activate">>/etc/profile.d/python3.sh && \
     source /ansible/bin/activate && \
     echo "==> Check Python ..." && \
     python --version && \
