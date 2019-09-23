@@ -117,7 +117,7 @@ RUN \
 RUN \
     echo "==> Enable Python 3 and create Virtual Environment" && \
     source scl_source enable rh-python36 && \
-    virtualenv ${APP_ROOT} && \
+    virtualenv ${APP_ROOT} --system-site-packages && \
     source /ansible/bin/activate && \
     echo "==> Check Python ..." && \
     python --version && \
@@ -160,6 +160,14 @@ RUN \
     echo "[local]" >> /etc/ansible/hosts && \
     echo "localhost ansible_connection=local" >> /etc/ansible/hosts
 
+RUN \
+    echo "==> Add Virtual Environment Activation to profile activation..."  && \
+    touch /etc/profile.d/python3.sh && chmod +x /etc/profile.d/python3.sh && \
+    echo "#!/bin/bash">/etc/profile.d/python3.sh && \
+    echo "source /ansible/bin/activate">>/etc/profile.d/python3.sh && \
+    echo "==> Link /usr/bin/python to /ansible/bin/python..."  && \
+    ln -fs /ansible/bin/python /usr/bin/python
+
 WORKDIR /ansible/playbooks
 
 ENV ANSIBLE_GATHERING="smart" \
@@ -168,7 +176,7 @@ ENV ANSIBLE_GATHERING="smart" \
     ANSIBLE_ROLES_PATH="${APP_ROOT}/playbooks/roles" \
     ANSIBLE_SSH_PIPELINING="True" \
     PYTHONPATH="${APP_ROOT}/lib" \
-    PATH="${APP_ROOT}/bin:$PATH" \
+    PATH="${APP_ROOT}/bin:/opt/rh/rh-python36/root/usr/bin:$PATH" \
     ANSIBLE_LIBRARY="${APP_ROOT}/library"
 
 VOLUME ["/sys/fs/cgroup", "/var/run/docker.sock", "/ansible/playbooks"]
