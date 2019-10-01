@@ -58,7 +58,7 @@ ENV PIP_PACKAGES \
     cryptography \
     appdirs \
     packaging \
-    boto \
+    boto3 \
     bs4 \
     ansible \
     docker-compose \
