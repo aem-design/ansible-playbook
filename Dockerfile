@@ -1,4 +1,4 @@
-FROM        centos:latest
+FROM        centos:7
 
 MAINTAINER  devops <devops@aem.design>
 
@@ -81,8 +81,7 @@ ENV BASH_ENV=${APP_ROOT}/etc/scl_enable \
 RUN \
     echo "==> Setup Base OS" && \
     yum -y update && \
-    yum -y install epel-release initscripts && \
-    yum -y install centos-release-scl scl-utils yum-utils && \
+    yum -y install epel-release initscripts centos-release-scl scl-utils yum-utils && \
     yum -y groupinstall development && \
     yum -y install ${YUM_PACKAGES}
 
