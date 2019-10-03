@@ -1,4 +1,4 @@
-FROM        centos:7
+FROM        centos:8
 
 MAINTAINER  devops <devops@aem.design>
 
@@ -26,12 +26,12 @@ ENV YUM_PACKAGES \
     openssh-clients \
     openssl-devel \
     patch \
-    rh-python36 \
-    rh-python36-python-devel \
-    rh-python36-python-pip \
-    rh-python36-python-setuptools \
-    rh-python36-python-tools \
-    rh-python36-python-six \
+    python36 \
+    python36-devel \
+    python3-pip \
+    python3-setuptools \
+    python3-tools \
+    python3-six \
     sed \
     sudo \
     tar \
@@ -70,18 +70,11 @@ ENV PIP_PACKAGES \
 ENV APP_ROOT=/ansible
 COPY ./root/ /
 
-# When bash is started non-interactively, to run a shell script, for example it
-# looks for this variable and source the content of this file. This will enable
-# the SCL for all scripts without need to do 'scl enable'.
-ENV BASH_ENV=${APP_ROOT}/etc/scl_enable \
-    ENV=${APP_ROOT}/etc/scl_enable \
-    PROMPT_COMMAND=". ${APP_ROOT}/etc/scl_enable"
-
 # Setup base os packages
 RUN \
     echo "==> Setup Base OS" && \
     yum -y update && \
-    yum -y install epel-release initscripts centos-release-scl scl-utils yum-utils && \
+    yum -y install epel-release initscripts scl-utils yum-utils && \
     yum -y groupinstall development && \
     yum -y install ${YUM_PACKAGES}
 
@@ -115,29 +108,24 @@ RUN \
 # Install Python3 with Virtenvironment
 RUN \
     echo "==> Enable Python 3 and create Virtual Environment" && \
-    source scl_source enable rh-python36 && \
-    virtualenv ${APP_ROOT} --system-site-packages && \
-    source /ansible/bin/activate && \
+    update-alternatives --set python /usr/bin/python3 && \
+    ln -s /usr/bin/pip3 /usr/bin/pip && \
     echo "==> Check Python ..." && \
     python --version && \
-    which python && \
-    which pip && \
-    echo "==> Upgrade Pip ..." && \
-    pip install --upgrade pip && \
+    pip --version && \
     echo "==> Upgrade packages dependant on pycurl..." && \
-    which python && \
-    which pip && \
-    pip install --upgrade --ignore-installed pyudev rtslib-fb && \
+    pip --version && \
+    pip3 install --upgrade --ignore-installed pyudev rtslib-fb && \
     \
     echo "==> Installing pycurl with openssl..." && \
     export PYCURL_SSL_LIBRARY=openssl && \
-    pip install --ignore-installed pycurl && \
+    pip3 install --ignore-installed pycurl && \
     \
     echo "==> Pycurl status..." && \
     python -c 'import pycurl; print(pycurl.version)' && \
     \
     echo "==> Installing ansible and modules..." && \
-    pip install --upgrade --ignore-installed ${PIP_PACKAGES} && \
+    pip3 install --upgrade --ignore-installed ${PIP_PACKAGES} && \
     \
     echo "==> Pycurl status..." && \
     python -c 'import pycurl; print(pycurl.version)' && \
@@ -159,13 +147,6 @@ RUN \
     echo "[local]" >> /etc/ansible/hosts && \
     echo "localhost ansible_connection=local" >> /etc/ansible/hosts
 
-RUN \
-    echo "==> Add Virtual Environment Activation to profile activation..."  && \
-    touch /etc/profile.d/python3.sh && chmod +x /etc/profile.d/python3.sh && \
-    echo "#!/bin/bash">/etc/profile.d/python3.sh && \
-    echo "source /ansible/bin/activate">>/etc/profile.d/python3.sh && \
-    echo "==> Link /usr/bin/python to /ansible/bin/python..."  && \
-    ln -fs /ansible/bin/python /usr/bin/python
 
 WORKDIR /ansible/playbooks
 
@@ -175,7 +156,6 @@ ENV ANSIBLE_GATHERING="smart" \
     ANSIBLE_ROLES_PATH="${APP_ROOT}/playbooks/roles" \
     ANSIBLE_SSH_PIPELINING="True" \
     PYTHONPATH="${APP_ROOT}/lib" \
-    PATH="${APP_ROOT}/bin:/opt/rh/rh-python36/root/usr/bin:$PATH" \
     ANSIBLE_LIBRARY="${APP_ROOT}/library"
 
 VOLUME ["/sys/fs/cgroup", "/var/run/docker.sock", "/ansible/playbooks"]
