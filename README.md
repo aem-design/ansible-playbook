@@ -1,6 +1,6 @@
 ## CentOS 7 with Ansible-Playbook
 
-[![build_status](https://travis-ci.org/aem-design/ansible-playbook.svg?branch=master)](https://travis-ci.org/aem-design/ansible-playbook) 
+[![build_status](https://travis-ci.org/aem-design/docker-ansible-playbook.svg?branch=master)](https://travis-ci.org/aem-design/docker-ansible-playbook) 
 [![github license](https://img.shields.io/github/license/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
 [![github issues](https://img.shields.io/github/issues/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
 [![github last commit](https://img.shields.io/github/last-commit/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
