@@ -1,0 +1,62 @@
+name: build
+
+on: [push]
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_REGISTRY: docker.io
+      ORGANISATION_NAME: aemdesign
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    steps:
+      - name: Experimental Status
+        run: |
+          docker version -f '{{.Server.Experimental}}'
+      - name: Docker
+        run: |
+          docker version -f '{{.Server.Experimental}}'
+          export DOCKER_CLI_EXPERIMENTAL=enabled
+          docker version -f '{{.Server.Experimental}}'
+          sudo service docker restart
+          docker version -f '{{.Server.Experimental}}'
+          sudo rm /etc/docker/daemon.json
+          echo $'{\n    "experimental": true\n}' | sudo tee /etc/docker/daemon.json
+          sudo service docker restart
+          docker version -f '{{.Server.Experimental}}'
+      - uses: actions/checkout@v2
+      - name: set envirnment variables
+        id: config
+        run: |
+          source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_get_config.sh)
+          source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_get_version.sh)
+      - name: build and test docker image
+        run: |
+          docker build --pull --squash -t $IMAGE:$GIT_BRANCH .
+          (cd test && bash ./run_tests.sh "$IMAGE:$GIT_BRANCH")
+          docker images
+      - name: login to docker registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${DOCKER_REGISTRY} -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: push image version
+        run: |
+          docker push $IMAGE:$GIT_BRANCH
+      - name: push latest image on master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker tag $IMAGE:$GIT_BRANCH $IMAGE:latest
+          docker push $IMAGE:latest
+      - name: update registry description with readme on master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker run --rm -v $(pwd):/data/ aemdesign/dockerhub-description "$DOCKER_USERNAME" "$DOCKER_PASSWORD" "$IMAGE"
+      - uses: meeDamian/github-release@1.0
+        if: github.ref == 'refs/heads/master'
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.GITHUB_TAG }}
+          name: ${{ env.GITHUB_TAG }}
+          body: ${{ env.GIT_RELEASE_NOTES }}

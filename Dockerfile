@@ -38,7 +38,8 @@ ENV YUM_PACKAGES \
     unzip \
     wget \
     which \
-    zlib-devel
+    zlib-devel \
+    yum-utils
 
 ENV PIP_PACKAGES \
     setuptools \
@@ -84,6 +85,14 @@ RUN \
     yum -y install epel-release initscripts centos-release-scl scl-utils yum-utils && \
     yum -y groupinstall development && \
     yum -y install ${YUM_PACKAGES}
+
+# Install Docker CLI
+RUN \
+  echo "" && \
+  yum-config-manager \
+      --add-repo \
+      https://download.docker.com/linux/centos/docker-ce.repo && \
+  yum install -y docker-ce-cli
 
 # Install latest curl
 RUN \
