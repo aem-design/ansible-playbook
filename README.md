@@ -1,6 +1,6 @@
 ## CentOS 7 with Ansible-Playbook
 
-[![build_status](https://travis-ci.org/aem-design/ansible-playbook.svg?branch=master)](https://travis-ci.org/aem-design/ansible-playbook) 
+[![build](https://github.com/aem-design/docker-ansible-playbook/actions/workflows/build.yml/badge.svg?branch=centos7)](https://github.com/aem-design/docker-ansible-playbook/actions/workflows/build.yml) 
 [![github license](https://img.shields.io/github/license/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
 [![github issues](https://img.shields.io/github/issues/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
 [![github last commit](https://img.shields.io/github/last-commit/aem-design/ansible-playbook)](https://github.com/aem-design/ansible-playbook) 
@@ -21,6 +21,7 @@ Following is the list of packages included
 | pyaem2 | | for aem automation [pyaem](https://github.com/aem-design/pyaem2) |
 | ansible | | for running playbooks |
 | ansible-playbook | | for running playbooks |
+| docker-cli | | for running docker commands |
 
 ### Usage
 
