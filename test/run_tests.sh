@@ -85,7 +85,7 @@ printDebug() {
 test_docker_run_usage() {
 	printTitle "Testing 'docker run' usage with execution of a playbook..."
 	CHECK="ok=2"
-	OUTPUT=$(docker run -it --rm --privileged -v $(pwd):/ansible/playbooks ${IMAGE_NAME} ansible-playbook playbook.yml)
+	OUTPUT=$(docker run --rm --privileged -v $(pwd):/ansible/playbooks ${IMAGE_NAME} ansible-playbook playbook.yml)
 	if [[ "$OUTPUT" != *"$CHECK"* ]]; then
 	    printResult "error"
 	    printDebug "Image '${IMAGE_NAME}' test FAILED could not find ${CHECK} in output" "${OUTPUT}"
@@ -98,7 +98,7 @@ test_docker_run_usage() {
 test_docker_run_usage_download() {
 	printTitle "Testing 'docker run' usage with python script to download file..."
 	CHECK="com.adobe.acs.bundles.twitter4j-content-1.0.0.zip"
-	OUTPUT=$(docker run -it --rm ${IMAGE_NAME} bash -c "python -c \"import urllib.request;  url = 'https://github.com/Adobe-Consulting-Services/com.adobe.acs.bundles.twitter4j/releases/download/com.adobe.acs.bundles.twitter4j-1.0.0/com.adobe.acs.bundles.twitter4j-content-1.0.0.zip'; urllib.request.urlretrieve(url, 'com.adobe.acs.bundles.twitter4j-content-1.0.0.zip');\"; ls")
+	OUTPUT=$(docker run --rm ${IMAGE_NAME} bash -c "python -c \"import urllib.request;  url = 'https://github.com/Adobe-Consulting-Services/com.adobe.acs.bundles.twitter4j/releases/download/com.adobe.acs.bundles.twitter4j-1.0.0/com.adobe.acs.bundles.twitter4j-content-1.0.0.zip'; urllib.request.urlretrieve(url, 'com.adobe.acs.bundles.twitter4j-content-1.0.0.zip');\"; ls")
 	if [[ "$OUTPUT" != *"$CHECK"* ]]; then
 	    printResult "error"
 	    printDebug "Image '${IMAGE_NAME}' test FAILED could not find ${CHECK} in output" "${OUTPUT}"
