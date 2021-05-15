@@ -66,7 +66,8 @@ ENV PIP_PACKAGES \
     docker \
     python-keyczar \
     jinja2-cli \
-    pyaem2
+    pyaem2 \
+    setuptools-rust
 
 ENV APP_ROOT=/ansible
 COPY ./root/ /
@@ -124,6 +125,7 @@ RUN \
     pip --version && \
     echo "==> Upgrade packages dependant on pycurl..." && \
     pip --version && \
+    pip3 install --upgrade pip && \
     pip3 install --upgrade --ignore-installed pyudev rtslib-fb && \
     \
     echo "==> Installing pycurl with openssl..." && \
