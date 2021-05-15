@@ -86,6 +86,7 @@ test_docker_run_usage() {
 	printTitle "Testing 'docker run' usage with execution of a playbook..."
 	CHECK="ok=2"
 	OUTPUT=$(docker run -it --rm --privileged -v $(pwd):/ansible/playbooks ${IMAGE_NAME} ansible-playbook playbook.yml)
+	echo $OUTPUT
 	if [[ "$OUTPUT" != *"$CHECK"* ]]; then
 	    printResult "error"
 	    printDebug "Image '${IMAGE_NAME}' test FAILED could not find ${CHECK} in output" "${OUTPUT}"
