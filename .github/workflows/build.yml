@@ -36,7 +36,6 @@ jobs:
       - name: build and test docker image
         run: |
           docker build --pull --squash -t $IMAGE:$GIT_BRANCH .
-          docker run -it --rm --privileged -v $(pwd):/ansible/playbooks aemdesign/ansible-playbook:centos7 ansible-playbook --version
           (cd test && bash ./run_tests.sh "$IMAGE:$GIT_BRANCH")
           docker images
       - name: login to docker registry
